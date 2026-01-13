@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,20 +14,20 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBar(),
+      appBar: _appBar("Resultados Loteria", Colors.indigo),
       body: _body(),
 
     );
   }
 
-  AppBar _appBar() {
+  AppBar _appBar(String title, Color bgColor) {
     return AppBar(
-      title: Text("Resultados Loteria", style: TextStyle(
+      title: Text(title, style: TextStyle(
         fontWeight: FontWeight.bold,
         color: Colors.white
       )),
 
-      backgroundColor: Colors.indigo,
+      backgroundColor: bgColor,
       centerTitle: true,
     );
   }
@@ -45,8 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _cardGame(String title, Color colorCard) {
     return GestureDetector(
       onTap: () => {
-        // Atualizar Consulta
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => _modalSearchContest()
+        )
+
       },
+
       child: Container(
         margin: EdgeInsets.all(7.0),
         padding: EdgeInsets.all(7.0),
@@ -56,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _textCard("Concurso: 9999", 20),
                 _textCard("01 - 02 - 03 - 04 - 05", 20)
@@ -75,7 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _textCard("Próximo Concurso: 894894", 15),
                 _textCard("13/01/2026", 15)
@@ -95,6 +100,44 @@ class _MyHomePageState extends State<MyHomePage> {
       color: Colors.white
     ));
 
+  }
+
+  Widget _modalSearchContest() {
+    return Scaffold(
+
+      appBar: _appBar("Buscar Concurso", Colors.indigo),
+      body: _modalBody(),
+
+    );
+
+  }
+
+  Widget _modalBody() {
+    TextEditingController _controller = TextEditingController();
+
+    return Container(
+      margin: EdgeInsets.all(7.0),
+
+      child: Column(
+        children: [
+
+          TextField(
+            controller: _controller,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              labelText: "Digite o Número do Concurso"
+            ),
+          ),
+
+          ElevatedButton(
+            onPressed: () => {}, 
+            child: Text("Buscar Concurso")
+          
+          )
+
+        ],
+      ),
+    );
   }
 
 }
