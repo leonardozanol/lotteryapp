@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -130,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
 
-          SizedBox(height: 10),
+          SizedBox(height: 20),
 
           Row(
             children: [
@@ -152,7 +151,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               )
             ],
+          ),
+
+          SizedBox(height: 20),
+
+          Container(
+            color: colorTheme,
+            
+            padding: EdgeInsets.all(20),
+
+            child: Column(
+              children: [
+
+                _textCard("Concurso: 9999", 20),
+                _textCard("13/01/2026", 20),
+                _textCard("01 - 02 - 03 - 04 - 05 - 06", 30)
+
+              ],
+            ),
+
           )
+
         ],
       ),
     );
