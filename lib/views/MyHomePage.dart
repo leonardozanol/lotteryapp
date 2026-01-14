@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          builder: (context) => _modalSearchContest()
+          builder: (context) => _modalSearchContest(title, colorCard)
         )
 
       },
@@ -102,21 +102,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  Widget _modalSearchContest() {
+  Widget _modalSearchContest(String game, Color colorTheme) {
     return Scaffold(
 
-      appBar: _appBar("Buscar Concurso", Colors.indigo),
-      body: _modalBody(),
+      appBar: _appBar(game, colorTheme),
+      body: _modalBody(colorTheme),
 
     );
 
   }
 
-  Widget _modalBody() {
+  Widget _modalBody(Color colorTheme) {
     TextEditingController _controller = TextEditingController();
 
     return Container(
-      margin: EdgeInsets.all(7.0),
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
 
       child: Column(
         children: [
@@ -129,12 +130,29 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
 
-          ElevatedButton(
-            onPressed: () => {}, 
-            child: Text("Buscar Concurso")
-          
-          )
+          SizedBox(height: 10),
 
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () => {},
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: colorTheme,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero
+                    )
+                  ),
+
+                  child: Text("Buscar Concurso", style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20
+                  )),   
+                ),
+              )
+            ],
+          )
         ],
       ),
     );
