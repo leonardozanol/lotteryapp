@@ -99,11 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _modalSearchContest(String game, Color colorTheme) {
     return Scaffold(
       appBar: _appBar(game, colorTheme),
-      body: _modalBody(colorTheme),
+      body: _modalBody(game, colorTheme),
     );
   }
 
-  Widget _modalBody(Color colorTheme) {
+  Widget _modalBody(String game, Color colorTheme) {
     TextEditingController _controller = TextEditingController();
 
     return Container(
@@ -136,10 +136,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     )
                   ),
 
-                  child: Text("Buscar Concurso", style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                  )),   
+                  child: _textModel("Buscar Concurso", 20),
+
                 ),
               )
             ],
@@ -147,22 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           SizedBox(height: 20),
 
-          Container(
-            color: colorTheme,
-            
-            padding: EdgeInsets.all(20),
-
-            child: Column(
-              children: [
-
-                _textModel("Concurso: 9999", 20),
-                _textModel("13/01/2026", 20),
-                _textModel("01 - 02 - 03 - 04 - 05 - 06", 30)
-
-              ],
-            ),
-
-          )
+          _boxDetailsGame(game, colorTheme, false)
 
         ],
       ),
