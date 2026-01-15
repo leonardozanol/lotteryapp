@@ -47,64 +47,60 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  Widget _cardGame(String title, Color colorCard) {
+  Widget _cardGame(String game, Color colorCard) {
     return GestureDetector(
       onTap: () => {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
-          builder: (context) => _modalSearchContest(title, colorCard)
+          builder: (context) => _modalSearchContest(game, colorCard)
         )
-
       },
+      child: _boxDetailsGame(game, colorCard, true)
 
-      child: Container(
-        margin: EdgeInsets.all(7.0),
-        padding: EdgeInsets.all(7.0),
+    );
+  }
 
-        height: 180,
-        color: colorCard,
+  Widget _boxDetailsGame(String game, Color colorTheme, bool isDetailed) {
+    return Container(
+      color: colorTheme,
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _textModel(title, 30),
-                _textModel('13/01/2026', 20)
-              ],
-            ),
+      child: Column(
+        children: [
 
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _textModel(game, 30),
+              _textModel("13/01/2026", 30)
+            ],
+          ),
+
+          Column(
+            children: [
+              _textModel("Concurso: 9999", 20),
+              _textModel("01 - 02 - 03 - 04 - 05", 20)
+            ],
+          ),
+
+          if (isDetailed)
             Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _textModel("Concurso: 9999", 20),
-                _textModel("01 - 02 - 03 - 04 - 05", 20)
-              ],
-            ),
-
-            Column(
-              children: [
-                _textModel("Próximo Concurso: 894894", 15),
-                _textModel("13/01/2026", 15)
+                _textModel("Próximo Concurso: 9999", 15),
+                _textModel("14/01/2026", 15)
               ],
             )
-          ],
-        )
 
-      )
+        ],
+      ),
     );
   }
 
   Widget _modalSearchContest(String game, Color colorTheme) {
     return Scaffold(
-
       appBar: _appBar(game, colorTheme),
       body: _modalBody(colorTheme),
-
     );
-
   }
 
   Widget _modalBody(Color colorTheme) {
