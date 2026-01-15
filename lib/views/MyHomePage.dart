@@ -21,18 +21,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   AppBar _appBar(String title, Color bgColor) {
     return AppBar(
-      title: Text(title, style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white
-      )),
+      title: _textModel(title, 20),
 
       backgroundColor: bgColor,
       centerTitle: true,
     );
   }
 
-  Widget _body() {
+  Widget _textModel(text, fSize) {
+    return Text(text, style: TextStyle(
+        fontSize: fSize,
+        fontWeight: FontWeight.bold,
+        color: Colors.white
+    ));
 
+  }
+
+  Widget _body() {
     return ListView(
       children: [
         _cardGame("Quina", Colors.indigo),
@@ -66,23 +71,23 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _textCard(title, 30),
-                _textCard('13/01/2026', 20)
+                _textModel(title, 30),
+                _textModel('13/01/2026', 20)
               ],
             ),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _textCard("Concurso: 9999", 20),
-                _textCard("01 - 02 - 03 - 04 - 05", 20)
+                _textModel("Concurso: 9999", 20),
+                _textModel("01 - 02 - 03 - 04 - 05", 20)
               ],
             ),
 
             Column(
               children: [
-                _textCard("Próximo Concurso: 894894", 15),
-                _textCard("13/01/2026", 15)
+                _textModel("Próximo Concurso: 894894", 15),
+                _textModel("13/01/2026", 15)
               ],
             )
           ],
@@ -90,15 +95,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
       )
     );
-  }
-
-  Widget _textCard(text, fSize) {
-    return Text(text, style: TextStyle(
-      fontSize: fSize,
-      fontWeight: FontWeight.bold,
-      color: Colors.white
-    ));
-
   }
 
   Widget _modalSearchContest(String game, Color colorTheme) {
@@ -163,9 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               children: [
 
-                _textCard("Concurso: 9999", 20),
-                _textCard("13/01/2026", 20),
-                _textCard("01 - 02 - 03 - 04 - 05 - 06", 30)
+                _textModel("Concurso: 9999", 20),
+                _textModel("13/01/2026", 20),
+                _textModel("01 - 02 - 03 - 04 - 05 - 06", 30)
 
               ],
             ),
