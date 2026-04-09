@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottery_app/views/ConnectionService.dart';
+import 'package:lottery_app/views/TypeGame.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -43,16 +44,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return ListView(
       padding: EdgeInsets.all(10.0),
       children: [
-        _cardGame("Quina", Colors.indigo),
-        _cardGame("MegaSena", Colors.green)
+        _cardGame("Quina", Colors.indigo, TypeGame.QUINA),
+        _cardGame("Mega-Sena", Colors.green, TypeGame.MEGASENA)
       ],
     );
 
   }
 
-  Widget _cardGame(String game, Color colorTheme) {
+  Widget _cardGame(String title, Color colorTheme, TypeGame game) {
     return FutureBuilder<Map<String, dynamic>>(
-      future: _api.fetchGameLatest(game.toLowerCase()),
+      future: _api.fetchGameLatest(game),
       builder: (context, snapshot) {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -69,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
             color: Colors.redAccent,
             child: Padding(
               padding: EdgeInsets.all(10.0),
-              child: Text("Erro Ao Carregar '$game': ${snapshot.error}"),
+              child: Text("Erro Ao Carregar '$title': ${snapshot.error}"),
             ),
           );
         }
@@ -87,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _textModel(game, 30),
+                  _textModel(title, 30),
                   _textModel(data['dataApuracao'], 20)
                 ],
               ),

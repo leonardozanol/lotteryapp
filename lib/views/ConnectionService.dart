@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:lottery_app/views/TypeGame.dart';
 
 class Connectionservice {
 
-  Future<Map<String, dynamic>> fetchGameLatest(String game) async {
-    final url = game == "quina" ? 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina' : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
+  Future<Map<String, dynamic>> fetchGameLatest(TypeGame game) async {
+    final url = game == TypeGame.QUINA ? 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina' : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

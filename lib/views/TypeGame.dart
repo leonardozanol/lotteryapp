@@ -1,0 +1,6 @@
+enum TypeGame {
+
+  QUINA,
+  MEGASENA
+
+}
