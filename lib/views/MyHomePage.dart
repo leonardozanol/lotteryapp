@@ -90,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
+          useSafeArea: true,
           builder: (context) => _modalSearchContest(title, colorTheme)
         )
       },
