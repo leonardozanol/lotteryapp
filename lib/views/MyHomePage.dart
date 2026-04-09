@@ -94,11 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (context) => _modalSearchContest(title, colorTheme)
         )
       },
-      child: _cardGame(title, colorTheme, data),
+      child: _cardGame(title, colorTheme, data, true),
     );
   }
 
-  Widget _cardGame(String title, Color colorTheme, Map<String, dynamic> data) {
+  Widget _cardGame(String title, Color colorTheme, Map<String, dynamic> data, bool isDetaild) {
     return Container(
       color: colorTheme,
       padding: EdgeInsets.all(20.0),
@@ -122,12 +122,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
 
-          Column(
-            children: [
-              _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
-              _textModel(data['dataProximoConcurso'], 15)
-            ],
-          )
+          if (isDetaild) 
+            Column(
+              children: [
+                _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
+                _textModel(data['dataProximoConcurso'], 15)
+              ],
+            )
         ],
       ),
     );
