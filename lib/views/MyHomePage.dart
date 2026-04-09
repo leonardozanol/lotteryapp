@@ -41,76 +41,80 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _body() {
-    return ListView(
-      padding: EdgeInsets.all(10.0),
-      children: [
-        _cardGame("Quina", Colors.indigo, TypeGame.QUINA),
-        _cardGame("Mega-Sena", Colors.green, TypeGame.MEGASENA)
-      ],
-    );
-
-  }
-
-  Widget _cardGame(String title, Color colorTheme, TypeGame game) {
-    return FutureBuilder<Map<String, dynamic>>(
-      future: _api.fetchGameLatest(game),
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: Future.wait([
+        _api.fetchGameLatest(TypeGame.QUINA),
+        _api.fetchGameLatest(TypeGame.MEGASENA)
+      ]),
       builder: (context, snapshot) {
 
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: Padding(
-              padding: EdgeInsets.all(20.0),
-              child: CircularProgressIndicator(),
-            )
+            child: CircularProgressIndicator(),
           );
         }
 
         if (snapshot.hasError || !snapshot.hasData) {
-          return Card(
+          return Container(
             color: Colors.redAccent,
-            child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text("Erro Ao Carregar '$title': ${snapshot.error}"),
+            padding: EdgeInsets.all(20.0),
+            margin: EdgeInsets.all(5.0),
+
+            child: Row(
+              children: [
+                Text("Erro Ao Carregar Dados: ${snapshot.error}")
+              ],
             ),
+
           );
         }
 
-        final data = snapshot.data!;
+        final resultados = snapshot.data!;
 
-        return Container(
-          color: colorTheme,
-          padding: EdgeInsets.all(20.0),
-          margin: EdgeInsets.all(5.0),
-
-          child: Column(
-            children: [
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _textModel(title, 30),
-                  _textModel(data['dataApuracao'], 20)
-                ],
-              ),
-
-              Column(
-                children: [
-                  _textModel("Concurso: ${data['numero']}", 20),
-                  _textModel(data['listaDezenas'], 20)
-                ],
-              ),
-
-              Column(
-                children: [
-                  _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
-                  _textModel(data['dataProximoConcurso'], 15)
-                ],
-              )
-            ],
-          ),
+        return ListView(
+          padding: EdgeInsets.all(10.0),
+          children: [
+            _cardGame("Quina", Colors.indigo, resultados[0]),
+            _cardGame("Mega-Sena", Colors.green, resultados[1])
+          ],
         );
       }
     );
+
   }
 
+  Widget _cardGame(String title, Color colorTheme, Map<String, dynamic> data) {
+      return Container(
+        color: colorTheme,
+        padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.all(5.0),
+
+        child: Column(
+          children: [
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _textModel(title, 30),
+                _textModel(data['dataApuracao'], 20)
+              ],
+            ),
+
+            Column(
+              children: [
+                _textModel("Concurso: ${data['numero']}", 20),
+                _textModel(data['listaDezenas'], 20)
+              ],
+            ),
+
+            Column(
+              children: [
+                _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
+                _textModel(data['dataProximoConcurso'], 15)
+              ],
+            )
+          ],
+        ),
+      );
+  }
 }
