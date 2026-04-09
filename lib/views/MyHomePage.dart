@@ -58,11 +58,12 @@ class _MyHomePageState extends State<MyHomePage> {
           return Container(
             color: Colors.redAccent,
             padding: EdgeInsets.all(20.0),
-            margin: EdgeInsets.all(5.0),
+            margin: EdgeInsets.all(15.0),
 
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Erro Ao Carregar Dados: ${snapshot.error}")
+                _textModel("Erro Ao Carregar Dados: ${snapshot.error}", 20),
               ],
             ),
 
