@@ -75,8 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
         return ListView(
           padding: EdgeInsets.all(10.0),
           children: [
-            _cardGame("Quina", Colors.indigo, resultados[0]),
-            _cardGame("Mega-Sena", Colors.green, resultados[1])
+            _cardGameButton("Quina", Colors.indigo, resultados[0]),
+            _cardGameButton("Mega-Sena", Colors.green, resultados[1])
           ],
         );
       }
@@ -84,38 +84,112 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  Widget _cardGame(String title, Color colorTheme, Map<String, dynamic> data) {
-      return Container(
-        color: colorTheme,
-        padding: EdgeInsets.all(20.0),
-        margin: EdgeInsets.all(5.0),
-
-        child: Column(
-          children: [
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _textModel(title, 30),
-                _textModel(data['dataApuracao'], 20)
-              ],
-            ),
-
-            Column(
-              children: [
-                _textModel("Concurso: ${data['numero']}", 20),
-                _textModel(data['listaDezenas'], 20)
-              ],
-            ),
-
-            Column(
-              children: [
-                _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
-                _textModel(data['dataProximoConcurso'], 15)
-              ],
-            )
-          ],
-        ),
-      );
+  Widget _cardGameButton(String title, Color colorTheme, Map<String, dynamic> data) {
+    return GestureDetector(
+      onTap: () => {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          builder: (context) => _modalSearchContest(title, colorTheme)
+        )
+      },
+      child: _cardGame(title, colorTheme, data),
+    );
   }
+
+  Widget _cardGame(String title, Color colorTheme, Map<String, dynamic> data) {
+    return Container(
+      color: colorTheme,
+      padding: EdgeInsets.all(20.0),
+      margin: EdgeInsets.all(5.0),
+
+      child: Column(
+        children: [
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _textModel(title, 30),
+              _textModel(data['dataApuracao'], 20)
+            ],
+          ),
+
+          Column(
+            children: [
+              _textModel("Concurso: ${data['numero']}", 20),
+              _textModel(data['listaDezenas'], 20)
+            ],
+          ),
+
+          Column(
+            children: [
+              _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
+              _textModel(data['dataProximoConcurso'], 15)
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _modalSearchContest(String title, Color colorTheme) {
+    return Scaffold(
+      appBar: _appBar(title, colorTheme),
+      body: _modalSearchBody(title, colorTheme),
+    );
+  }
+
+  Widget _modalSearchBody(String title, Color colorTheme) {
+    TextEditingController _controller = TextEditingController();
+
+    return Container(
+      margin: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(10.0),
+
+      child: Column(
+        children: [
+
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Digite o Número do Concurso"
+              ),
+            )
+          ),
+
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => {},
+
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorTheme,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero
+                      )
+                    ),
+
+                    child: _textModel("Buscar Concurso", 20),
+                  ),
+                )
+              ],
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.all(10.0),
+            child: _textModel("teste", 20),
+          )
+
+        ],
+      ),
+    );
+  }
+
 }
