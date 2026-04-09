@@ -39,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _body() {
     return ListView(
+      padding: EdgeInsets.all(10.0),
       children: [
         _cardGame("Quina", Colors.indigo),
         _cardGame("Mega-Sena", Colors.green)
@@ -47,23 +48,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
-  Widget _cardGame(String game, Color colorCard) {
-    return GestureDetector(
-      onTap: () => {
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          builder: (context) => _modalSearchContest(game, colorCard)
-        )
-      },
-      child: _boxDetailsGame(game, colorCard, true)
-
-    );
-  }
-
-  Widget _boxDetailsGame(String game, Color colorTheme, bool isDetailed) {
+  Widget _cardGame(String game, Color colorTheme) {
     return Container(
       color: colorTheme,
+      padding: EdgeInsets.all(20.0),
+      margin: EdgeInsets.all(5.0),
 
       child: Column(
         children: [
@@ -72,81 +61,23 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _textModel(game, 30),
-              _textModel("13/01/2026", 30)
+              _textModel("13/01/2026", 20) // 13/01/2026 - 'date': data['dataApuracao']
             ],
           ),
 
           Column(
             children: [
-              _textModel("Concurso: 9999", 20),
-              _textModel("01 - 02 - 03 - 04 - 05", 20)
+              _textModel("Concurso: 9999", 20), // 9999 - 'contest': data['numero']
+              _textModel("01 - 02 - 03 - 04 - 05", 20) // 01 - 02 - 03 - 04 - 05 - 'listDiscount': data['listaDezenas']
             ],
           ),
 
-          if (isDetailed)
-            Column(
-              children: [
-                _textModel("Próximo Concurso: 9999", 15),
-                _textModel("14/01/2026", 15)
-              ],
-            )
-
-        ],
-      ),
-    );
-  }
-
-  Widget _modalSearchContest(String game, Color colorTheme) {
-    return Scaffold(
-      appBar: _appBar(game, colorTheme),
-      body: _modalBody(game, colorTheme),
-    );
-  }
-
-  Widget _modalBody(String game, Color colorTheme) {
-    TextEditingController _controller = TextEditingController();
-
-    return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
-
-      child: Column(
-        children: [
-
-          TextField(
-            controller: _controller,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: "Digite o Número do Concurso"
-            ),
-          ),
-
-          SizedBox(height: 20),
-
-          Row(
+          Column(
             children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => {},
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: colorTheme,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero
-                    )
-                  ),
-
-                  child: _textModel("Buscar Concurso", 20),
-
-                ),
-              )
-            ],
-          ),
-
-          SizedBox(height: 20),
-
-          _boxDetailsGame(game, colorTheme, false)
-
+               _textModel("Próximo Concurso: 9999", 15), // 9999 - 'numberNextContest': data['numeroConcursoProximo']
+               _textModel("14/01/2026", 15) // 14/01/2026 - 'dateNextContext': data['dataProximoConcurso']
+             ],
+          )
         ],
       ),
     );
