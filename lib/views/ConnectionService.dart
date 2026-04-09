@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class Connectionservice {
 
   Future<Map<String, dynamic>> fetchGameLatest(String game) async {
-    final url = game == "Quina" ? 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina' : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
+    final url = game == "quina" ? 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina' : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
