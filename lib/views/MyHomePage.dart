@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottery_app/views/ConnectionService.dart';
+import 'package:lottery_app/services/ConnectionService.dart';
 import 'package:lottery_app/views/TypeGame.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _modalSearchBody(String title, Color colorTheme) {
-    TextEditingController _controller = TextEditingController();
+    TextEditingController controller = TextEditingController();
 
     return Container(
       margin: EdgeInsets.all(10.0),
@@ -154,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
             padding: EdgeInsets.all(10.0),
             child: TextField(
-              controller: _controller,
+              controller: controller,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 labelText: "Digite o Número do Concurso"

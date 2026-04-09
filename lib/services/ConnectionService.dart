@@ -9,7 +9,6 @@ class Connectionservice {
     final url = game == TypeGame.QUINA ? 'https://servicebus2.caixa.gov.br/portaldeloterias/api/quina' : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
 
     try {
-
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
@@ -30,6 +29,31 @@ class Connectionservice {
 
     } catch(e) {
       throw Exception("Falha: $e");
+    }
+
+  }
+
+  Future<Map<String, dynamic>> fetchGameContest(TypeGame game, String contest) async {
+    final url = game == TypeGame.QUINA ? "https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/${contest}" : "https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/${contest}";
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        return {
+          'numero': data['numero'] ?? 0,
+          'dataApuracao': data['dataApuracao'] ?? 'Data Não Informada',
+          'listaDezenas': data['listaDezenas']?.join(" - ") ??
+              'Nenhum Número Disponível',
+        };
+      } else {
+        throw Exception("Erro ao Carregar Dados: Status Response ${response.statusCode}");
+      }
+
+    } catch(e) {
+      throw Exception("Falha: ${e}");
     }
 
   }
