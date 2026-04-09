@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottery_app/views/ConnectionService.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -9,6 +10,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final Connectionservice _api = Connectionservice();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _textModel(text, fSize) {
+  Widget _textModel(String text, double fSize) {
     return Text(text, style: TextStyle(
         fontSize: fSize,
         fontWeight: FontWeight.bold,
@@ -42,44 +44,71 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: EdgeInsets.all(10.0),
       children: [
         _cardGame("Quina", Colors.indigo),
-        _cardGame("Mega-Sena", Colors.green)
+        _cardGame("MegaSena", Colors.green)
       ],
     );
 
   }
 
   Widget _cardGame(String game, Color colorTheme) {
-    return Container(
-      color: colorTheme,
-      padding: EdgeInsets.all(20.0),
-      margin: EdgeInsets.all(5.0),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: _api.fetchGameLatest(game.toLowerCase()),
+      builder: (context, snapshot) {
 
-      child: Column(
-        children: [
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: CircularProgressIndicator(),
+            )
+          );
+        }
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        if (snapshot.hasError || !snapshot.hasData) {
+          return Card(
+            color: Colors.redAccent,
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text("Erro Ao Carregar '$game': ${snapshot.error}"),
+            ),
+          );
+        }
+
+        final data = snapshot.data!;
+
+        return Container(
+          color: colorTheme,
+          padding: EdgeInsets.all(20.0),
+          margin: EdgeInsets.all(5.0),
+
+          child: Column(
             children: [
-              _textModel(game, 30),
-              _textModel("13/01/2026", 20) // 13/01/2026 - 'date': data['dataApuracao']
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _textModel(game, 30),
+                  _textModel(data['dataApuracao'], 20)
+                ],
+              ),
+
+              Column(
+                children: [
+                  _textModel("Concurso: ${data['numero']}", 20),
+                  _textModel(data['listaDezenas'], 20)
+                ],
+              ),
+
+              Column(
+                children: [
+                  _textModel("Próximo Concurso: ${data['numeroConcursoProximo']}", 15), 
+                  _textModel(data['dataProximoConcurso'], 15)
+                ],
+              )
             ],
           ),
-
-          Column(
-            children: [
-              _textModel("Concurso: 9999", 20), // 9999 - 'contest': data['numero']
-              _textModel("01 - 02 - 03 - 04 - 05", 20) // 01 - 02 - 03 - 04 - 05 - 'listDiscount': data['listaDezenas']
-            ],
-          ),
-
-          Column(
-            children: [
-               _textModel("Próximo Concurso: 9999", 15), // 9999 - 'numberNextContest': data['numeroConcursoProximo']
-               _textModel("14/01/2026", 15) // 14/01/2026 - 'dateNextContext': data['dataProximoConcurso']
-             ],
-          )
-        ],
-      ),
+        );
+      }
     );
   }
 

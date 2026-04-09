@@ -12,11 +12,11 @@ class Connectionservice {
       final data = json.decode(response.body);
 
       return {
-        'contest': data['numero'],
-        'date': data['dataApuracao'],
-        'listDiscount': data['listaDezenas'],
-        'numberNextContest': data['numeroConcursoProximo'],
-        'dateNextContext': data['dataProximoConcurso']
+        'numero': data['numero'],
+        'dataApuracao': data['dataApuracao'],
+        'listaDezenas': data['listaDezenas'].join(" - "),
+        'numeroConcursoProximo': data['numeroConcursoProximo'],
+        'dataProximoConcurso': data['dataProximoConcurso']
       };
 
     } else {
