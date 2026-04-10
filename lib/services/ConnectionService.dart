@@ -50,9 +50,6 @@ class Connectionservice {
           'listaDezenas':
               data['listaDezenas']?.join(" - ") ?? 'Nenhum Número Disponível',
         };
-      } else if (response.statusCode == 500 || response.statusCode == 404) {
-        throw Exception("Concurso Não Encontrado!");
-
       } else {
         throw Exception(
           "Erro ao Carregar Dados: Status Response ${response.statusCode}",

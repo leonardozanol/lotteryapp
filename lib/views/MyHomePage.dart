@@ -15,20 +15,47 @@ class _MyHomePageState extends State<MyHomePage> {
   final Connectionservice _api = Connectionservice();
   final UtilsDecorator _decorator = UtilsDecorator();
 
+  Future<List<Map<String, dynamic>>>? _futureResultados;
+  bool _isLoad = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _atualizarDados();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _decorator.appBar("Resultados Loteria", Colors.indigo),
       body: _body(),
+      bottomNavigationBar: _bottomNavigationBody(Colors.indigo),
     );
+  }
+
+  void _atualizarDados() async {
+
+    if (_isLoad) {
+      return;
+    }
+
+    setState(() {
+      _futureResultados = Future.wait([
+        _api.fetchGameLatest(TypeGame.QUINA),
+        _api.fetchGameLatest(TypeGame.MEGASENA)
+      ]);
+    });
+
+    try {
+      await _futureResultados;
+    } finally {
+      _isLoad = false;
+    }
   }
 
   Widget _body() {
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: Future.wait([
-        _api.fetchGameLatest(TypeGame.QUINA),
-        _api.fetchGameLatest(TypeGame.MEGASENA),
-      ]),
+      future: _futureResultados,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -43,7 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _decorator.textModel("Erro Ao Carregar Dados: ${snapshot.error}", 20),
+                Expanded(
+                  child: _decorator.textModel("Erro Ao Carregar Dados: ${snapshot.error}", 20),
+                )
               ],
             ),
           );
@@ -69,6 +98,28 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         );
       },
+    );
+  }
+
+  Widget _bottomNavigationBody(Color colorTheme) {
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+                onPressed: _isLoad ? null : () => _atualizarDados(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: colorTheme,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero
+                    )
+                ),
+                child: _decorator.textModel("Atualizar Resultados", 20)
+            ),
+          )
+        ],
+      )
     );
   }
 
