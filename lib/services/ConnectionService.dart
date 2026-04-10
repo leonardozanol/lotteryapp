@@ -10,7 +10,7 @@ class Connectionservice {
         : 'https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena';
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -39,7 +39,7 @@ class Connectionservice {
         : "https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/${contest}";
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url)).timeout(const Duration(seconds: 20));
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
