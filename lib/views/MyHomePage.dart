@@ -131,12 +131,12 @@ class _MyHomePageState extends State<MyHomePage> {
   ) {
     return GestureDetector(
       onTap: () => {
-        //showModalBottomSheet(
-        // context: context,
-        //isScrollControlled: true,
-        //useSafeArea: true,
-        //builder: (context) =>
-        //)
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          useSafeArea: true,
+          builder: (context) => _modalSearchContest(title, colorTheme, game)
+        )
       },
       child: _cardGame(title, colorTheme, data, true),
     );
@@ -184,4 +184,87 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+  Widget _modalSearchContest(String title, Color colorTheme, TypeGame typeGame) {
+    Map<String, dynamic>? _resultadoBusca;
+    bool _carregando = false;
+    String? _erro;
+    final TextEditingController _controller = TextEditingController();
+
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setModalState) {
+        return Container(
+          padding: EdgeInsets.all(15.0),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("Buscar - ${title}", style: TextStyle(
+                  color: colorTheme,
+                  fontSize: 20
+                )),
+                const SizedBox(height: 20),
+
+                TextField(
+                  controller: _controller,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Digite o Número do Concurso",
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.search, color: colorTheme),
+                  ),
+                ),
+
+                const SizedBox(height: 15),
+
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: colorTheme, shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+                    onPressed: _carregando ? null : () async {
+                      if (_controller.text.isEmpty) return;
+
+                      setModalState(() {
+                        _carregando = true;
+                        _erro = null;
+                        _resultadoBusca = null;
+                      });
+
+                      try {
+                        final result = await _api.fetchGameContest(typeGame, _controller.text);
+
+                        setModalState(() {
+                          _resultadoBusca = result;
+                          _carregando = false;
+                        });
+                      } catch (e) {
+                        setModalState(() {
+                          _erro = "Concurso não encontrado!";
+                          _carregando = false;
+                        });
+                      }
+                    },
+                    child: _carregando
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : _decorator.textModel("Buscar Concurso", 20),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                if (_erro != null)
+                  Text(_erro!, style: TextStyle(color: Colors.red, fontSize: 18)),
+
+                if (_resultadoBusca != null)
+                  _cardGame(title, colorTheme, _resultadoBusca!, false),
+
+                Padding(padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom))
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
