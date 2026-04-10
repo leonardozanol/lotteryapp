@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:lottery_app/views/TypeGame.dart';
+import 'package:lottery_app/utils/TypeGame.dart';
 
 class Connectionservice {
   Future<Map<String, dynamic>> fetchGameLatest(TypeGame game) async {
@@ -33,10 +33,7 @@ class Connectionservice {
     }
   }
 
-  Future<Map<String, dynamic>> fetchGameContest(
-    TypeGame game,
-    String contest,
-  ) async {
+  Future<Map<String, dynamic>> fetchGameContest(TypeGame game, String contest) async {
     final url = game == TypeGame.QUINA
         ? "https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/${contest}"
         : "https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/${contest}";
@@ -55,7 +52,7 @@ class Connectionservice {
         };
       } else if (response.statusCode == 500 || response.statusCode == 404) {
         throw Exception("Concurso Não Encontrado!");
-        
+
       } else {
         throw Exception(
           "Erro ao Carregar Dados: Status Response ${response.statusCode}",
