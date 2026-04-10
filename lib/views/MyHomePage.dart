@@ -101,28 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Widget _bottomNavigationBody(Color colorTheme) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: ElevatedButton(
-                onPressed: _isLoad ? null : () => _atualizarDados(),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: colorTheme,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero
-                    )
-                ),
-                child: _decorator.textModel("Atualizar Resultados", 20)
-            ),
-          )
-        ],
-      )
-    );
-  }
-
   Widget _cardGameButton(
     String title,
     Color colorTheme,
@@ -177,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   "Próximo Concurso: ${data['numeroConcursoProximo']}",
                   15,
                 ),
-                _decorator.textModel(data['dataProximoConcurso'], 15),
+                _decorator.textModel("Data do Próximo: ${data['dataProximoConcurso']}", 15),
               ],
             ),
         ],
@@ -264,6 +242,31 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _bottomNavigationBody(Color colorTheme) {
+    return Padding(
+      padding: EdgeInsets.all(15.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+                onPressed: _isLoad ? null : () => _atualizarDados(),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: colorTheme,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero
+                    )
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: _decorator.textModel("Atualizar Resultados", 20),
+                ) 
+            ),
+          )
+        ],
+      )
     );
   }
 
