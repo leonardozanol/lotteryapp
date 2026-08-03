@@ -45,13 +45,13 @@ https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena
 
 Quando o usuário deseja buscar um concurso específico, o aplicativo acrescenta o número informado ao final da URL da modalidade selecionada:
 
-```dart
-final url = isQuina
-    ? "https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/${contest}"
-    : "https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/${contest}";
-```
+```text
+Quina:
+https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/concurso_especifico
 
-Nesse trecho, `contest` representa o número do concurso que será consultado.
+Mega-Sena:
+https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/concurso_especifico
+```
 
 ## Motivação
 
