@@ -60,9 +60,9 @@ https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/{concurso_especif
 ## Telas
 
 <p align="center">
-  <img src="docs/images/cards_foto.jpeg" width="320" alt="Tela inicial com os resultados da Quina e da Mega-Sena">
+  <img src="docs/imagens/cards_foto.jpeg" width="320" alt="Tela inicial com os resultados da Quina e da Mega-Sena">
   &nbsp;&nbsp;
-  <img src="docs/images/foto_busca.jpeg" width="320" alt="Tela de busca por um concurso específico">
+  <img src="docs/imagens/foto_busca.jpeg" width="320" alt="Tela de busca por um concurso específico">
 </p>
 
 <p align="center">
