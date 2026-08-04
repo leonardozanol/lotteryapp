@@ -35,7 +35,7 @@ Ao tocar no card da Quina ou da Mega-Sena, é possível pesquisar um concurso es
 
 As informações são consultadas nos seguintes endpoints públicos do Portal de Loterias da Caixa:
 
-### Resultado do último concurso:
+# Resultado do último concurso:
 
 ```text
 Quina:
@@ -47,15 +47,27 @@ https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena
 
 Quando o usuário deseja buscar um concurso específico, o aplicativo acrescenta o número informado ao final da URL da modalidade selecionada:
 
-### Resultado do concurso informado pelo usuário:
+# Resultado do concurso informado pelo usuário:
 
 ```text
 Quina:
-https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/{concurso_informado}
+https://servicebus2.caixa.gov.br/portaldeloterias/api/quina/{concurso_especifico}
 
 Mega-Sena:
-https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/{concurso_informado}
+https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/{concurso_especifico}
 ```
+
+## Telas
+
+<p align="center">
+  <img src="docs/images/cards_foto.jpeg" width="320" alt="Tela inicial com os resultados da Quina e da Mega-Sena">
+  &nbsp;&nbsp;
+  <img src="docs/images/foto_busca.jpeg" width="320" alt="Tela de busca por um concurso específico">
+</p>
+
+<p align="center">
+  <em>Tela inicial com os resultados mais recentes e busca por um concurso específico.</em>
+</p>
 
 ## Motivação
 
